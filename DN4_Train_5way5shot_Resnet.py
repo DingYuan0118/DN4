@@ -37,6 +37,7 @@ from torch import autograd
 from PIL import ImageFile
 import pdb
 import sys
+from My_utils import print_model_params
 sys.dont_write_bytecode = True
 
 
@@ -290,7 +291,6 @@ print(opt)
 print(opt, file=F_txt)
 
 
-
 # ========================================== Model Config ===============================================
 ngpu = int(opt.ngpu)
 global best_prec1, epoch_index
@@ -326,6 +326,7 @@ if opt.ngpu > 1:
 # print the architecture of the network
 print(model) 
 print(model, file=F_txt)
+print_model_params(model)
 
 
 

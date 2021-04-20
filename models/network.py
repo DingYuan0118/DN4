@@ -107,8 +107,8 @@ def define_DN4Net(pretrained=False, model_root=None, which_model='Conv64', norm=
 		net_opt = {'userelu': False, 'in_planes':3, 'dropout':0.5, 'norm_layer': norm_layer} 
 		DN4Net = ResNetLike(net_opt)
 	elif which_model == 'ResNet640F':
-		net_opt = {'userelu': False, 'in_planes':3, 'dropout':0.5, 'norm_layer': norm_layer, "out_planes": [64, 160, 320, 640]} 
-		DN4Net = ResNetLike(net_opt)	
+		net_opt = {'userelu': False, 'in_planes':3, 'dropout':0.5, 'norm_layer': norm_layer} 
+		DN4Net = ResNetLike(net_opt, out_planes=[64, 160, 320, 640])	
 	else:
 		raise NotImplementedError('Model name [%s] is not recognized' % which_model)
 	init_weights(DN4Net, init_type=init_type)
