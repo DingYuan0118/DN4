@@ -94,7 +94,7 @@ def validate(val_loader, model, criterion, epoch_index, F_txt):
 	batch_time = AverageMeter()
 	losses = AverageMeter()
 	top1 = AverageMeter()
-  
+
 
 	# switch to evaluate mode
 	model.eval()

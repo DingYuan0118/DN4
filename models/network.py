@@ -106,6 +106,9 @@ def define_DN4Net(pretrained=False, model_root=None, which_model='Conv64', norm=
 	elif which_model == 'ResNet256F':
 		net_opt = {'userelu': False, 'in_planes':3, 'dropout':0.5, 'norm_layer': norm_layer} 
 		DN4Net = ResNetLike(net_opt)
+	elif which_model == 'ResNet640F':
+		net_opt = {'userelu': False, 'in_planes':3, 'dropout':0.5, 'norm_layer': norm_layer, "out_planes": [64, 160, 320, 640]} 
+		DN4Net = ResNetLike(net_opt)	
 	else:
 		raise NotImplementedError('Model name [%s] is not recognized' % which_model)
 	init_weights(DN4Net, init_type=init_type)
@@ -282,11 +285,11 @@ class ResBlock(nn.Module):
 
 
 class ResNetLike(nn.Module):
-	def __init__(self, opt, neighbor_k=3):
+	def __init__(self, opt, neighbor_k=3, out_planes=[64,96,128,256]):
 		super(ResNetLike, self).__init__()
 
 		self.in_planes = opt['in_planes']
-		self.out_planes = [64, 96, 128, 256]
+		self.out_planes = out_planes
 		self.num_stages = 4
 
 		if type(opt['norm_layer']) == functools.partial:
@@ -345,3 +348,16 @@ class ResNetLike(nn.Module):
 		x = self.imgtoclass(q, S)   # get Batch*num_classes
 
 		return x
+
+
+if __name__ == "__main__":
+	norm = "batch"
+	norm_layer = get_norm_layer(norm_type=norm)
+	net_opt = {'userelu': False, 'in_planes':3, 'dropout':0.5, 'norm_layer': norm_layer} 
+	model = ResNetLike(net_opt, out_planes=[64, 160, 320, 640])
+
+	total_params = sum(p.numel() for p in model.parameters())
+	total_buffers = sum(q.numel() for q in model.buffers())
+	print("\033[1;32;m{}\033[0m model have \033[1;32;m{}\033[0m parameters.".format(model.__class__.__name__, total_params + total_buffers))
+	total_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+	print("\033[1;32;m{}\033[0m model have \033[1;32;m{}\033[0m training parameters.".format(model.__class__.__name__, total_trainable_params))
