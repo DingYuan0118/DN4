@@ -61,7 +61,7 @@ parser.add_argument('--data_name', default='miniImageNet', help='miniImageNet|St
 parser.add_argument('--mode', default='test', help='train|val|test')
 parser.add_argument('--outf', default='./results/DN4')
 parser.add_argument('--resume', default=model_trained, type=str, help='path to the lastest checkpoint (default: none)')
-parser.add_argument('--basemodel', default='Conv64F', help='Conv64F|ResNet256F')
+parser.add_argument('--basemodel', default='ResNet256F', help='Conv64F|ResNet256F|ResNet640F') #添加了ResNet640F与DeepEMD保持一致
 parser.add_argument('--workers', type=int, default=8)
 #  Few-shot parameters  #
 parser.add_argument('--imageSize', type=int, default=84)
@@ -191,7 +191,7 @@ def accuracy(output, target, topk=(1,)):
 
 		res = []
 		for k in topk:
-			correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
+			correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
 			res.append(correct_k.mul_(100.0 / batch_size))
 		return res
 
