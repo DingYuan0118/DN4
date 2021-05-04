@@ -115,3 +115,4 @@ datasets/*/*.json
 tmp*
 datasets/*.jar
 remote*
+results/*/*.tar
