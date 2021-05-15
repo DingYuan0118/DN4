@@ -57,7 +57,7 @@ model_trained = './results/DN4_miniImageNet_Conv64F_5Way_5Shot_K3/model_best.pth
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset_dir', default='/Datasets/miniImageNet--ravi', help='/miniImageNet')
-parser.add_argument('--data_name', default='miniImageNet', help='miniImageNet|StanfordDog|StanfordCar|CubBird')
+parser.add_argument('--data_name', default='miniImageNet', help='miniImageNet|StanfordDog|StanfordCar|CubBird|recognition36|recognition36_crop')# 添加自定义数据集
 parser.add_argument('--mode', default='test', help='train|val|test')
 parser.add_argument('--outf', default='./results/DN4')
 parser.add_argument('--resume', default=model_trained, type=str, help='path to the lastest checkpoint (default: none)')
