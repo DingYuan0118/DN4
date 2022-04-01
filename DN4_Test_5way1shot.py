@@ -123,7 +123,7 @@ def validate(val_loader, model, criterion, epoch_index, F_txt):
 
 		# Calculate the output 
 		output = model(input_var1, input_var2)
-		loss = criterion(output, target)
+		loss = criterion(output, target.type(torch.long))
 
 
 		# measure accuracy and record loss
@@ -191,7 +191,7 @@ def accuracy(output, target, topk=(1,)):
 
 		res = []
 		for k in topk:
-			correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
+			correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
 			res.append(correct_k.mul_(100.0 / batch_size))
 		return res
 
